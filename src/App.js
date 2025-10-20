@@ -6,6 +6,11 @@ function App() {
   const [seccionActual, setSeccionActual] = useState(0);
   const [animando, setAnimando] = useState(false);
   const [direccion, setDireccion] = useState("enter");
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Distancia mínima para considerar un swipe (en px)
+  const minSwipeDistance = 50;
 
   // Auto-avance cada 10 segundos
   useEffect(() => {
@@ -17,6 +22,32 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [seccionActual]);
+
+  // Manejadores de touch para swipe en móviles
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      // Swipe izquierda = siguiente
+      handleSiguiente();
+    } else if (isRightSwipe) {
+      // Swipe derecha = anterior
+      handleAnterior();
+    }
+  };
 
   const handleSiguiente = () => {
     if (seccionActual < 3 && !animando) {
@@ -76,7 +107,12 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="scroll-container">
         {/* Sección 1: Título y 30 Años */}
         {seccionActual === 0 && (

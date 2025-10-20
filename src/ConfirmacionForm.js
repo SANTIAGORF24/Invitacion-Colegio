@@ -8,6 +8,33 @@ function ConfirmacionForm({ onVolver, mostrarRobot }) {
   });
   const [enviado, setEnviado] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Distancia mínima para considerar un swipe (en px)
+  const minSwipeDistance = 50;
+
+  // Manejadores de touch para swipe en móviles
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    // Solo swipe derecha para volver
+    if (isRightSwipe && onVolver) {
+      onVolver();
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +57,12 @@ function ConfirmacionForm({ onVolver, mostrarRobot }) {
 
   if (enviado) {
     return (
-      <div className="confirmation-success">
+      <div
+        className="confirmation-success"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div className="success-container animate-scale">
           <div className="success-icon">✓</div>
           <h2 className="success-title">¡Confirmación Exitosa!</h2>
@@ -115,7 +147,12 @@ function ConfirmacionForm({ onVolver, mostrarRobot }) {
   }
 
   return (
-    <div className="confirmacion-container">
+    <div
+      className="confirmacion-container"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="form-wrapper animate-fade-in">
         {/* Header decorativo */}
         <div className="form-header">
