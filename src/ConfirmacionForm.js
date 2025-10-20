@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ConfirmacionForm.css";
 
-function ConfirmacionForm({ onVolver }) {
+function ConfirmacionForm({ onVolver, mostrarRobot }) {
   const [formData, setFormData] = useState({
     cedula: "",
     nombre: "",
@@ -39,11 +39,8 @@ function ConfirmacionForm({ onVolver }) {
             asistencia.
           </p>
           <p className="success-subtitle">
-            Nos vemos el 15 de noviembre para celebrar juntos.
+            Nos vemos en noviembre para celebrar juntos.
           </p>
-          <button className="btn-volver" onClick={onVolver}>
-            Volver a la Invitación
-          </button>
         </div>
 
         {/* Elementos decorativos */}
@@ -52,6 +49,67 @@ function ConfirmacionForm({ onVolver }) {
             <div key={i} className={`confetti-piece confetti-${i % 5}`}></div>
           ))}
         </div>
+
+        {/* Robot de navegación */}
+        {mostrarRobot && (
+          <div className="robot-navegacion">
+            {/* Bocadillo de diálogo del robot */}
+            <div className="robot-dialogo">
+              <p className="robot-mensaje">
+                ¡Perfecto! Tu confirmación ha sido registrada. ¡Nos vemos en el
+                evento!
+              </p>
+              <div className="robot-botones">
+                <button
+                  className="robot-btn robot-btn-anterior"
+                  onClick={onVolver}
+                >
+                  ← Volver
+                </button>
+              </div>
+            </div>
+
+            {/* Robot CSS */}
+            <div className="robot">
+              {/* Antena */}
+              <div className="robot-antena">
+                <div className="antena-bola"></div>
+              </div>
+
+              {/* Cabeza */}
+              <div className="robot-cabeza">
+                {/* Ojos */}
+                <div className="robot-ojos">
+                  <div className="ojo ojo-izquierdo"></div>
+                  <div className="ojo ojo-derecho"></div>
+                </div>
+                {/* Boca */}
+                <div className="robot-boca"></div>
+              </div>
+
+              {/* Cuerpo */}
+              <div className="robot-cuerpo">
+                <div className="robot-panel">
+                  <div className="panel-luz activa"></div>
+                  <div className="panel-luz activa"></div>
+                  <div className="panel-luz activa"></div>
+                </div>
+              </div>
+
+              {/* Brazos */}
+              <div className="robot-brazos">
+                <div className="brazo brazo-izquierdo"></div>
+                <div className="brazo brazo-derecho"></div>
+              </div>
+
+              {/* Piernas */}
+              <div className="robot-piernas">
+                <div className="pierna pierna-izquierda"></div>
+                <div className="pierna pierna-derecha"></div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -130,10 +188,6 @@ function ConfirmacionForm({ onVolver }) {
           </button>
         </form>
 
-        <button className="btn-back" onClick={onVolver}>
-          ← Volver a la invitación
-        </button>
-
         {/* Footer decorativo */}
         <div className="form-footer">
           <div className="line left-line"></div>
@@ -148,6 +202,68 @@ function ConfirmacionForm({ onVolver }) {
           <div className="circle circle-3"></div>
         </div>
       </div>
+
+      {/* Robot de navegación */}
+      {mostrarRobot && (
+        <div className="robot-navegacion">
+          {/* Bocadillo de diálogo del robot */}
+          <div className="robot-dialogo">
+            <p className="robot-mensaje">
+              {enviado
+                ? "¡Perfecto! Tu confirmación ha sido registrada. ¡Nos vemos en el evento!"
+                : "Por favor completa el formulario para confirmar tu asistencia."}
+            </p>
+            <div className="robot-botones">
+              <button
+                className="robot-btn robot-btn-anterior"
+                onClick={onVolver}
+              >
+                ← Volver
+              </button>
+            </div>
+          </div>
+
+          {/* Robot CSS */}
+          <div className="robot">
+            {/* Antena */}
+            <div className="robot-antena">
+              <div className="antena-bola"></div>
+            </div>
+
+            {/* Cabeza */}
+            <div className="robot-cabeza">
+              {/* Ojos */}
+              <div className="robot-ojos">
+                <div className="ojo ojo-izquierdo"></div>
+                <div className="ojo ojo-derecho"></div>
+              </div>
+              {/* Boca */}
+              <div className="robot-boca"></div>
+            </div>
+
+            {/* Cuerpo */}
+            <div className="robot-cuerpo">
+              <div className="robot-panel">
+                <div className="panel-luz activa"></div>
+                <div className="panel-luz activa"></div>
+                <div className="panel-luz activa"></div>
+              </div>
+            </div>
+
+            {/* Brazos */}
+            <div className="robot-brazos">
+              <div className="brazo brazo-izquierdo"></div>
+              <div className="brazo brazo-derecho"></div>
+            </div>
+
+            {/* Piernas */}
+            <div className="robot-piernas">
+              <div className="pierna pierna-izquierda"></div>
+              <div className="pierna pierna-derecha"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
